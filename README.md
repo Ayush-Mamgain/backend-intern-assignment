@@ -123,22 +123,3 @@ See `API_DOCUMENTATION.md` for the full list of endpoints, request/response
 examples, and error cases. Import `postman_collection.json` into Postman for
 a ready-made collection of all requests.
 
-## Design notes (short version — see API docs for more)
-
-- **Why controllers / services / repositories are separated:** each layer has
-  one job. Controllers don't know about SQL, repositories don't know about
-  HTTP, and services don't know (or care) whether the data came from SQLite
-  or Postgres. It also makes the FastAPI call easy to swap out or mock in
-  tests, since it's isolated in `services/fastapi.service.ts`.
-- **FastAPI being slow/unavailable:** the axios call has a timeout
-  (`FASTAPI_TIMEOUT_MS`, default 5s) so a slow FastAPI service can't hang a
-  request forever. If it times out or is unreachable, the API responds with
-  a clear `503`/`504` error instead of leaving the client waiting.
-- **Only the latest analysis is stored**, not a history, via a one-to-one
-  relation (`AnalysisResult.quoteId` is `@unique`) with an `upsert`. This
-  keeps the schema and queries simple, matching what the assignment's table
-  design (`AnalysisResult` has a single `quote_id`, not a list) implies.
-- **Validation** is done with small hand-written functions
-  (`src/utils/validate.ts`) rather than a validation library, since the rules
-  here (a few required fields, one allowed-value check) don't need one to
-  stay readable.
