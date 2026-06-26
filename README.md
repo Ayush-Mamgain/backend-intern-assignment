@@ -121,5 +121,5 @@ curl -X POST http://localhost:3000/quotes/1/analyze
 
 See `API_DOCUMENTATION.md` for the full list of endpoints, request/response
 examples, and error cases. Import `postman_collection.json` into Postman for
-a ready-made collection of all requests.
+a ready-made collection of all requests. See `API_Screenshots\` for Postman tested APIs results.
 
