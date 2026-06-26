@@ -1,0 +1,40 @@
+// Prisma schema for the Quote Request backend.
+// Two tables, exactly as asked in the assignment:
+//   - QuoteRequest  -> the quote itself
+//   - AnalysisResult -> the latest FastAPI analysis for a quote (one per quote)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model QuoteRequest {
+  id             Int      @id @default(autoincrement())
+  customer       String
+  project        String
+  status         String   @default("New") // New | In Review | Needs Info | Completed
+  estimatedValue Float    @map("estimated_value")
+  createdDate    DateTime @default(now()) @map("created_date")
+
+  // One quote has at most one (latest) analysis result.
+  analysisResult AnalysisResult?
+
+  @@map("quote_requests")
+}
+
+model AnalysisResult {
+  id           Int      @id @default(autoincrement())
+  quoteId      Int      @unique @map("quote_id")
+  risk         String
+  confidence   Int
+  missingItems String   @map("missing_items") // stored as a JSON string, e.g. ["Structural drawings"]
+  analyzedAt   DateTime @default(now()) @map("analyzed_at")
+
+  quote QuoteRequest @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@map("analysis_results")
+}

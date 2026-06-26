@@ -1,0 +1,95 @@
+{
+  "info": {
+    "name": "Backend Internship Assignment - Quote Requests API",
+    "description": "Collection for the Node.js + TypeScript backend that manages quote requests and integrates with the FastAPI analysis service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Get All Quotes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/quotes"
+      }
+    },
+    {
+      "name": "Get Quote By Id",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/quotes/1"
+      }
+    },
+    {
+      "name": "Create Quote",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer\": \"Acme Corp\",\n  \"project\": \"Warehouse Roof\",\n  \"estimatedValue\": 15000\n}"
+        },
+        "url": "{{baseUrl}}/quotes"
+      }
+    },
+    {
+      "name": "Create Quote - Validation Error",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customer\": \"\",\n  \"estimatedValue\": -500\n}"
+        },
+        "url": "{{baseUrl}}/quotes"
+      }
+    },
+    {
+      "name": "Analyze Quote",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/quotes/1/analyze"
+      }
+    },
+    {
+      "name": "Update Quote Status",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"In Review\"\n}"
+        },
+        "url": "{{baseUrl}}/quotes/1/status"
+      }
+    },
+    {
+      "name": "Update Quote Status - Invalid Status",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"Closed\"\n}"
+        },
+        "url": "{{baseUrl}}/quotes/1/status"
+      }
+    },
+    {
+      "name": "Get Quote - Not Found",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/quotes/9999"
+      }
+    }
+  ]
+}

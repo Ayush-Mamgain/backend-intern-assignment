@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+*.log
+
+# SQLite database files
+prisma/*.db
+prisma/*.db-journal
+
+# Python
+fastapi-mock/__pycache__/
+fastapi-mock/venv/
+fastapi-mock/.venv/
+*.pyc
