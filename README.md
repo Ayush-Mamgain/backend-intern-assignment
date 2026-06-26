@@ -10,6 +10,7 @@ dependencies.
 
 ```
 backend-internship-assignment/
+├──API_Screenshots/                #screenshots of Postman tested APIs in png format
 ├── src/
 │   ├── server.ts                  # starts the HTTP server
 │   ├── app.ts                     # express app + middleware + routes wiring
